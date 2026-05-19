@@ -27,6 +27,7 @@ export class SQLiteApplicationRepository implements IApplicationRepository {
         git_remote_url, cloud_deployment_provider, cloud_deployment_status,
         cloud_deployment_id, cloud_deployment_url, cloud_deployment_error,
         last_deployed_at,
+        criticality, exposure, data_classification, business_unit,
         created_at, updated_at, deleted_at
       ) VALUES (
         @id, @name, @slug, @description, @repository_path, @additional_paths,
@@ -34,6 +35,7 @@ export class SQLiteApplicationRepository implements IApplicationRepository {
         @git_remote_url, @cloud_deployment_provider, @cloud_deployment_status,
         @cloud_deployment_id, @cloud_deployment_url, @cloud_deployment_error,
         @last_deployed_at,
+        @criticality, @exposure, @data_classification, @business_unit,
         @created_at, @updated_at, @deleted_at
       )
     `);
@@ -89,6 +91,10 @@ export class SQLiteApplicationRepository implements IApplicationRepository {
         | 'cloudDeploymentUrl'
         | 'cloudDeploymentError'
         | 'lastDeployedAt'
+        | 'criticality'
+        | 'exposure'
+        | 'dataClassification'
+        | 'businessUnit'
       >
     >
   ): Promise<void> {
@@ -155,6 +161,22 @@ export class SQLiteApplicationRepository implements IApplicationRepository {
           ? fields.lastDeployedAt.getTime()
           : fields.lastDeployedAt
       );
+    }
+    if (fields.criticality !== undefined) {
+      setClauses.push('criticality = ?');
+      values.push(fields.criticality);
+    }
+    if (fields.exposure !== undefined) {
+      setClauses.push('exposure = ?');
+      values.push(fields.exposure);
+    }
+    if (fields.dataClassification !== undefined) {
+      setClauses.push('data_classification = ?');
+      values.push(fields.dataClassification);
+    }
+    if (fields.businessUnit !== undefined) {
+      setClauses.push('business_unit = ?');
+      values.push(fields.businessUnit);
     }
 
     values.push(id);
