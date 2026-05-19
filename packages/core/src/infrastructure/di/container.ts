@@ -56,6 +56,7 @@ import { registerIntegrations } from './modules/register-integrations.js';
 import { registerDeployment } from './modules/register-deployment.js';
 import { registerUseCases } from './modules/register-use-cases.js';
 import { registerInteractive } from './modules/register-interactive.js';
+import { registerAspm } from './modules/register-aspm.js';
 
 let _initialized = false;
 
@@ -90,6 +91,7 @@ export async function initializeContainer(): Promise<typeof container> {
   registerDeployment(container);
   registerUseCases(container);
   registerInteractive(container);
+  registerAspm(container);
 
   // ─── Eager deployment service ────────────────────────────────────────────
   // DeploymentService needs the database and calls `recoverAll()` at startup,
