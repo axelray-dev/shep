@@ -593,3 +593,19 @@ The user reported that the web preview did not start automatically after the ini
 3. **Single source of truth.** If you have two effects firing `deploy.deploy()` on the same event (e.g. `useDevServerCoordinator` AND a `onAllStepsComplete` callback), kill one — `deploymentService.start()` is NOT idempotent (see `deployment.service.ts` line 231-238: it kills any existing deployment and starts a new one), so two parallel calls can race and tear down the in-flight spawn.
 4. **Always status-guard before calling `deploy.deploy()`:** skip when `deploy.status === Ready || Booting || deploy.deployLoading`. This is the only protection against a stray double-fire that would kill an in-progress spawn.
 5. **Do NOT add "respect explicit user stop" complexity unless the user asks for it.** The simpler invariant — "after the agent finishes, the preview is up" — matches what users want 99% of the time. Manual stop is a transient user action; it does not need to persist across iterations.
+
+## Web pages must `import type` use cases — not runtime-import them
+
+Symptom: every `/aspm/*` route returned `Internal Server Error`; Next.js/turbopack logged `Module not found: Can't resolve '../../../../domain/generated/output.js'` (and similar `.js` resolutions deeper in the package). The control-center even returned 500s once the bundler had walked the failing graph once.
+
+Root cause: ASPM server components did `import { GetPostureSummaryUseCase, ... } from '@shepai/core/application/use-cases/aspm/posture/get-posture-summary'`. Importing the *class* as a runtime value forces Next.js to bundle the use-case source, which then walks every `.js`-suffixed relative import inside `packages/core/`. Turbopack's `.js → .ts` resolution doesn't follow those deeper paths reliably, so the bundle fails. Once the graph fails, the dev server enters a stuck state where unrelated routes also 500.
+
+Concrete instance: `src/presentation/web/app/aspm/page.tsx` (and every sibling under `app/aspm/`) used runtime `import { UseCase }` + `resolve(UseCase)`. The convention elsewhere in the repo is `import type { UseCase }` + `resolve<UseCase>('UseCase')` paired with a string-token registration alongside the class token (see `register-use-cases.ts`).
+
+Rules for any new web page or server route:
+
+1. **Always `import type` use cases from `@shepai/core`** — never `import { ClassName }`. Webpack/turbopack will bundle the entire use-case source otherwise, which can break deep relative `.js` imports inside `packages/core/`.
+2. **Resolve via string token** — `resolve<UseCase>('UseCase').execute()`. The use case must also be registered under that string in its DI module.
+3. **Add the string-token alias next to the class registration** in the relevant `register-*.ts` module: `container.register('UseCase', { useFactory: (c) => c.resolve(UseCase) })`. This keeps existing class-token consumers (CLI, tests) working while letting type-only web imports resolve at runtime.
+4. **Domain error classes are safe to runtime-import** when the file has no transitive imports (e.g. `FindingNotFoundError`). Bundling those is harmless because there's no resolution chain to follow.
+5. **If `/aspm/*` (or any route) returns 500 and the log says "Module not found" inside `packages/core/src/`**, the fix is at the *web page*, not the package: swap runtime imports for type imports.
