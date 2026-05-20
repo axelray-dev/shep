@@ -1775,6 +1775,18 @@ export function SettingsPageClient({
                 save({ featureFlags: newFlags });
               }}
             />
+            <SwitchRow
+              label={t('settings.featureFlags.aspm')}
+              description={t('settings.featureFlags.aspmDescription')}
+              id="flag-aspm"
+              testId="switch-flag-aspm"
+              checked={flags.aspm}
+              onChange={(v) => {
+                const newFlags = { ...flags, aspm: v };
+                setFlags(newFlags);
+                save({ featureFlags: newFlags });
+              }}
+            />
           </SettingsSection>
           <SectionHint>{t('settings.featureFlags.hint')}</SectionHint>
         </div>
