@@ -309,16 +309,16 @@ describe('createDefaultSettings', () => {
       expect(settings.featureFlags).toBeDefined();
     });
 
-    it('should default feature flags with envDeploy enabled', () => {
+    it('should default feature flags with envDeploy / projects / codeReview / collaboration / aspm enabled', () => {
       const settings = createDefaultSettings();
       expect(settings.featureFlags).toEqual({
         envDeploy: true,
         debug: false,
         reactFileManager: false,
-        projects: false,
-        codeReview: false,
-        collaboration: false,
-        aspm: false,
+        projects: true,
+        codeReview: true,
+        collaboration: true,
+        aspm: true,
       });
     });
   });

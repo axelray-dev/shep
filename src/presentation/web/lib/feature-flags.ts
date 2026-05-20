@@ -49,10 +49,22 @@ export function getFeatureFlags(): FeatureFlagsState {
         : true,
     debug: false,
     reactFileManager: isEnabled(process.env.NEXT_PUBLIC_FLAG_REACT_FILE_MANAGER),
-    projects: false,
-    codeReview: false,
-    collaboration: isEnabled(process.env.NEXT_PUBLIC_FLAG_COLLABORATION),
-    aspm: isEnabled(process.env.NEXT_PUBLIC_FLAG_ASPM),
+    projects:
+      process.env.NEXT_PUBLIC_FLAG_PROJECTS !== undefined
+        ? isEnabled(process.env.NEXT_PUBLIC_FLAG_PROJECTS)
+        : true,
+    codeReview:
+      process.env.NEXT_PUBLIC_FLAG_CODE_REVIEW !== undefined
+        ? isEnabled(process.env.NEXT_PUBLIC_FLAG_CODE_REVIEW)
+        : true,
+    collaboration:
+      process.env.NEXT_PUBLIC_FLAG_COLLABORATION !== undefined
+        ? isEnabled(process.env.NEXT_PUBLIC_FLAG_COLLABORATION)
+        : true,
+    aspm:
+      process.env.NEXT_PUBLIC_FLAG_ASPM !== undefined
+        ? isEnabled(process.env.NEXT_PUBLIC_FLAG_ASPM)
+        : true,
   };
 }
 

@@ -218,10 +218,10 @@ export function createDefaultSettings(): Settings {
     envDeploy: true,
     debug: false,
     reactFileManager: false,
-    projects: false,
-    codeReview: false,
-    collaboration: false,
-    aspm: false,
+    projects: true,
+    codeReview: true,
+    collaboration: true,
+    aspm: true,
   };
 
   return {
