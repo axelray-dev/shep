@@ -610,6 +610,9 @@ model FeatureFlags {
 
   @doc("Enable agent collaboration, supervisor agent, and unified question pipeline (spec 093)")
   collaboration: boolean = false;
+
+  @doc("Enable the Application Security Posture Management (ASPM) module — /aspm web routes, `shep aspm` CLI command tree, and the posture SSE stream (spec 098)")
+  aspm: boolean = false;
 }
 
 /**

@@ -40,6 +40,7 @@ export const AllSections: Story = {
         projects: false,
         codeReview: false,
         collaboration: false,
+        aspm: false,
       },
     },
     shepHome: '/opt/shep',

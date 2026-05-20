@@ -14,6 +14,7 @@ const defaultFeatureFlags = {
   projects: false,
   codeReview: false,
   collaboration: false,
+  aspm: false,
 };
 
 const meta: Meta<typeof AppSidebar> = {

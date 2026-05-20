@@ -55,6 +55,7 @@ vi.mock('@/hooks/feature-flags-context', () => ({
     projects: false,
     codeReview: false,
     collaboration: false,
+    aspm: false,
   })),
 }));
 
@@ -75,6 +76,7 @@ describe('AddRepositoryButton', () => {
       projects: false,
       codeReview: false,
       collaboration: false,
+      aspm: false,
     });
   });
 
@@ -170,6 +172,7 @@ describe('AddRepositoryButton', () => {
         projects: false,
         codeReview: false,
         collaboration: false,
+        aspm: false,
       });
     });
 
@@ -298,6 +301,7 @@ describe('AddRepositoryButton', () => {
         projects: false,
         codeReview: false,
         collaboration: false,
+        aspm: false,
       });
     });
 
@@ -368,6 +372,7 @@ describe('AddRepositoryButton', () => {
         projects: false,
         codeReview: false,
         collaboration: false,
+        aspm: false,
       });
       const user = userEvent.setup();
       render(<AddRepositoryButton />);

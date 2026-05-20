@@ -10,6 +10,7 @@ const defaultFlags: FeatureFlagsState = {
   projects: false,
   codeReview: false,
   collaboration: false,
+  aspm: false,
 };
 
 const FeatureFlagsContext = createContext<FeatureFlagsState>(defaultFlags);

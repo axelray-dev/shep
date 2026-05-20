@@ -402,6 +402,7 @@ export function SettingsPageClient({
     projects: false,
     codeReview: false,
     collaboration: false,
+    aspm: false,
   };
 
   // Language state

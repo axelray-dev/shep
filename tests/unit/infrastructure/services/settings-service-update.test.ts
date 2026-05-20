@@ -75,6 +75,7 @@ describe('updateSettings', () => {
         projects: false,
         codeReview: false,
         collaboration: false,
+        aspm: false,
       },
     };
     updateSettings(updated);

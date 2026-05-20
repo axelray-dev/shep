@@ -45,6 +45,7 @@ const defaultFlags = {
   projects: false,
   codeReview: false,
   collaboration: false,
+  aspm: false,
 };
 
 function renderWithSidebar(ui: React.ReactElement) {

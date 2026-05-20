@@ -56,6 +56,7 @@ const defaultFlags = {
   projects: false,
   codeReview: false,
   collaboration: false,
+  aspm: false,
 };
 
 function renderShell(children: React.ReactNode) {
